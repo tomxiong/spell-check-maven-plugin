@@ -1,0 +1,4 @@
+tooltips
+hostname
+autoscale
+spid

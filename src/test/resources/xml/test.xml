@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module display-name="Azure" last-entity-id="138" parent="system:uiwc" version="127">
+  <composite-view>
+    <window id="0" view="nested">
+      <view component="ui.label" display-name="severity icon" id="nested" public="false"
+        ts="1311662993845">
+        <context>
+          <entry key="Title">
+            <string-rv>
+              <context-rv input-key="AzureDB" path="name"/>
+              <value xml:space="preserve">Health State of "{0}"</value>
+            </string-rv>
+          </entry>
+          <entry key="ShortDescription">
+            <string-rv>
+              <context-rv input-key="AzureDB" path="name"/>
+              <value xml:space="preserve">The health state of {0} is determined by the highest severity level of both the alarms invoked for SQL Azure database and the threshold deviations of the following on-screen components:</value>
+            </string-rv>
+          </entry>
+        </context>
+      </view>
+    </window>
+
+    <window id="0" view="system:uiwc_Azure.96">
+      <context>
+        <entry key="caption">
+          <string-rv>
+            <value xml:space="preserve">Refresh</value>
+          </string-rv>
+        </entry>
+        <entry key="newDrill">
+          <string-rv>
+            <value xml:space="preserve">Refresh</value>
+          </string-rv>
+        </entry>
+      </context>
+    </window>
+
+    <entry key="selectedGroupView">
+      <string-rv>
+        <value
+          xml:space="preserve">uiwc_common_DEV_Admin_Databases_TypeWelcomeView</value>
+      </string-rv>
+    </entry>
+
+    <window>
+      <view component="ui.label" display-name="(Nested View 1)" id="nested" public="false"
+      ts="1283693355838">
+      <config>
+        <property name="label">
+          <string-rv>
+            <value xml:space="preserve"> </value>
+          </string-rv>
+        </property>
+      </config>
+      <flow/>
+      </view>
+      <view component="ui.label" display-name="(Nested View 2)" id="nested" public="false"
+        ts="1309271395167">
+        <config>
+          <property name="label">
+            <string-rv>
+              <value xml:space="preserve"> </value>
+            </string-rv>
+          </property>
+        </config>
+        <flow/>
+      </view>
+
+      <view component="ui.label" display-name="back" id="nested" public="false" ts="1309697403008">
+        <config>
+          <property name="label">
+            <string-rv>
+              <function-rv id="system:uiwc_Azure.22">
+                <context-rv input-key="pageTitle"/>
+                <icon-ref value="system:uiwc.206"/>
+                <on-null>
+                  <string-rv>
+                    <value xml:space="preserve"> </value>
+                  </string-rv>
+                </on-null>
+              </function-rv>
+              <function-rv id="system:uiwc_Azure.21">
+                <context-rv input-key="pageTitle"/>
+              </function-rv>
+              <on-null>
+                <string-rv>
+                  <value xml:space="preserve"> </value>
+                </string-rv>
+              </on-null>
+              <value xml:space="preserve">{0} {1}</value>
+            </string-rv>
+          </property>
+          <property name="label">
+            <string-rv renderer-id="system:uiwc_Azure_table20and20indexes.29">
+              <value xml:space="preserve">Filter: </value>
+            </string-rv>
+          </property>
+          <property name="items">
+            <list-rv remove-dups="false" remove-nulls="false">
+              <string-rv>
+                <value xml:space="preserve">Rows</value>
+              </string-rv>
+              <string-rv>
+                <value xml:space="preserve">Size</value>
+              </string-rv>
+            </list-rv>
+          </property>
+          <property name="label">
+            <string-rv>
+              <context-rv input-key="displayedCaption" renderer-id="system:uiwc_Azure.75">
+                <on-null>
+                  <function-rv id="system:uiwc_common_DEV.135"/>
+                </on-null>
+              </context-rv>
+              <value xml:space="preserve">{0}</value>
+            </string-rv>
+          </property>
+        </config>
+        <flow>
+          <on action="selection">
+            <choose-value key="pageTitle">
+              <case value="Azure_Top_SQL">
+                <update keep-timestamp="true">
+                  <context>
+                    <entry key="pageID">
+                      <string xml:space="preserve">Azure_Top_SQL</string>
+                    </entry>
+                  </context>
+                </update>
+              </case>
+              <default>
+                <nop/>
+              </default>
+            </choose-value>
+          </on>
+        </flow>
+        <inputs>
+          <entry data-type="ui:TimeRange" key="timeRange"/>
+          <entry data-type="ui:String" key="pageTitle"/>
+          <entry data-type="ui:String" key="textStyle" usage="internal">
+            <string-rv>
+              <value xml:space="preserve">green</value>
+            </string-rv>
+          </entry>
+
+          <default>
+            <choose-value key="newDrill">
+              <case value="Azure_Homepage">
+                <next-page id="system:uiwc_Azure_homepage.1">
+                  <context>
+                    <entry key="drillDown">
+                      <string-rv>
+                        <value xml:space="preserve">Azure_Homepage</value>
+                      </string-rv>
+                    </entry>
+                  </context>
+                </next-page>
+              </case>
+              <case value="Azure_Info">
+                <next-page id="system:uiwc_Azure_info.2">
+                  <context>
+                    <entry key="drillDown">
+                      <string xml:space="preserve">Azure_Info</string>
+                    </entry>
+                  </context>
+                </next-page>
+              </case>
+            </choose-value>
+          </default>
+        </inputs>
+      </view>
+    </window>
+  </composite-view>
+  <map-function converter="true" display-name="Toolbar Icon" id="19" input-type="ui:String"
+  output-type="ui:IconReference" public="false" ts="1304592366239">
+    <map-entry>
+      <key>
+        <string xml:space="preserve">Azure_Blocking_Current</string>
+      </key>
+      <value>
+        <icon-ref value="system:uiwc_Azure.30"/>
+      </value>
+    </map-entry>
+    <uuid>297ac01f-295f-4061-9b8b-b317436aee86</uuid>
+    </map-function>
+  <view component="ui.table.row-table" display-name="##Azure Databases" id="58" priority="p1" public="false"
+  refresh-interval="30" ts="1312275368849">
+    <config>
+      <property name="rows">
+        <query-selection-rv query="system:uiwc_Azure.82"/>
+      </property>
+      <property name="columns">
+        <list-value>
+          <object>
+            <property name="value">
+              <context-rv input-key="currentRow" path="name"/>
+            </property>
+            <property name="id">
+              <string xml:space="preserve">Name</string>
+            </property>
+          </object>
+          <object>
+            <property name="value">
+              <context-rv input-key="currentRow" path="instance/name"/>
+            </property>
+            <property name="id">
+              <string xml:space="preserve">Instance</string>
+            </property>
+            <property name="label">
+              <string xml:space="preserve">Instance</string>
+            </property>
+            <property name="header">
+              <string xml:space="preserve">Instance</string>
+            </property>
+          </object>
+        </list-value>
+      </property>
+      <property name="selectionConfiguration">
+        <object>
+          <property name="allowReselection">
+            <boolean value="true"/>
+          </property>
+        </object>
+      </property>
+      <property name="sizing">
+        <component-sizing>
+          <height preferred="1"/>
+          <width preferred="1"/>
+        </component-sizing>
+      </property>
+      <property name="popupOptions">
+        <object>
+          <property name="useLegacySizing">
+            <boolean value="true"/>
+          </property>
+        </object>
+      </property>
+    </config>
+    <context>
+      <entry key="arrTest">
+        <function-rv id="system:uiwc_Azure.133"/>
+      </entry>
+    </context>
+    <flow>
+      <on action="rowSelection">
+        <generated-context custom-key="selectedDB" output-key="selectedRow"/>
+        <next-page id="system:uiwc_Azure_homepage.1">
+          <context>
+            <entry key="AzureDB">
+              <context-rv input-key="selectedDB"/>
+            </entry>
+            <entry key="timeRange">
+              <lastn-time-range granularity="-2" num-units="1" unit="hour"/>
+            </entry>
+          </context>
+        </next-page>
+      </on>
+    </flow>
+    <inputs>
+      <entry data-type="ui:TimeRange" key="timeRange"/>
+      <entry data-type="test:uiss_Azure_Database" implicit="true" key="selectedDB"
+        usage="optional"/>
+    </inputs>
+    <purpose name="monitor"/>
+    <purpose name="page"/>
+    <relevant-role name="General Access"/>
+    <uuid>f4c6b7df-803d-43bb-bdad-1192a7228d09</uuid>
+  </view>
+</module>

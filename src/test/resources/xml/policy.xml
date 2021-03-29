@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This software is confidential. Software Inc., or one of its subsidiaries, has supplied this software to you
+    under terms of a license agreement, nondisclosure agreement or both.
+
+    You may not copy, disclose, or use this software except in accordance with those terms.
+
+    Copyright 2020 Software Inc. ALL RIGHTS RESERVED.
+
+    SOFTWARE INC. MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+    OR NON-INFRINGEMENT. QUEST SOFTWARE SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING,
+    MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+
+-->
+<testconfig exported-on="2020-06-23T14:33:22.156Z" version="1.0.4.0">
+  <rule comments="" help="" id="ce0ede5f-ce0e-44ed-a1f7-5dd159d93208"
+    is-external="true" name="test it" trigger="sdfsdfsda">
+    <messages/>
+    <named-schedule-reference referenced-schedule-id="004c78d4-c278-4af2-81f7-4264fdd0003f"/>
+    <severities>
+      <conditional-severity id="8a8abc793118588b013128846e0c6737" level="1">
+        <condition><![CDATA[return false;]]></condition>
+        <message name="default.message">
+          <![CDATA[Rule @rule_name fired with @severity_level_name severity.]]></message>
+        <messages/>
+      </conditional-severity>
+      <unconditional-severity disabled="true" id="8a8abc793118588b013128846e0c6738" level="-1">
+        <exit-action-handlers/>
+        <expressions/>
+        <fire-action-handlers/>
+        <message name="default.severity.message">
+          <![CDATA[Rule @rule_name fired with @severity_level_name severity.]]></message>
+        <messages/>
+      </unconditional-severity>
+    </severities>
+  </rule>
+</testconfig>
