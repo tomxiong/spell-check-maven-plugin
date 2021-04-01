@@ -35,8 +35,7 @@ public class XmlSpellCheckerTest {
     }});
     File file = new File("target/test-classes/xml/config.xml");
     assertTrue(file.toString(), file.exists());
-    Collection<CheckResult> result = checker
-        .check(file,false);
+    Collection<CheckResult> result = checker.check(file,false);
     assertEquals(result.toString(), 1, result.size());
     CheckResult checkResult = result.iterator().next();
     assertEquals(checkResult.suggestions.toString(), 1, checkResult.suggestions.size());
@@ -44,8 +43,8 @@ public class XmlSpellCheckerTest {
 
     checker.setUseSymSpellCheck(false);
     checker.getDictionary().clearCache();
-    result = checker
-        .check(new File("target/test-classes/xml/config.xml"), false);
+    result.clear();
+    result = checker.check(file, false);
     assertEquals(result.toString(), 1, result.size());
     checkResult = result.iterator().next();
     assertEquals(checkResult.suggestions.toString(), 1, checkResult.suggestions.size());
