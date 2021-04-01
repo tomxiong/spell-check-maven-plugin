@@ -1,6 +1,7 @@
 package spellchecker.checker;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Collection;
@@ -32,8 +33,10 @@ public class XmlSpellCheckerTest {
       put("severity-family", "name,comments,help");
       put("message", "CDATA");
     }});
+    File file = new File("target/test-classes/xml/config.xml");
+    assertTrue(file.toString(), file.exists());
     Collection<CheckResult> result = checker
-        .check(new File("target/test-classes/xml/config.xml"), false);
+        .check(file,false);
     assertEquals(result.toString(), 1, result.size());
     CheckResult checkResult = result.iterator().next();
     assertEquals(checkResult.suggestions.toString(), 1, checkResult.suggestions.size());

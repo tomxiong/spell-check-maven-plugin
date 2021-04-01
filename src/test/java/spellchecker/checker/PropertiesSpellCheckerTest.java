@@ -63,7 +63,9 @@ public class PropertiesSpellCheckerTest {
     checker.setUseSymSpellCheck(false);
     checker.getDictionary().clearCache();
     checker.addAllowWord(new HashSet<>(Collections.singletonList("fogam")));
-    Collection<CheckResult> results = checker.check(new File("target/test-classes/properties/1.properties"), false);
+    File file = new File("target/test-classes/properties/1.properties");
+    assertTrue(file.toString(), file.exists());
+    Collection<CheckResult> results = checker.check(file,false);
     assertEquals(results.toString(), 2, results.size());
     Iterator iter = results.iterator();
     CheckResult checkResult = (CheckResult) iter.next();
@@ -83,7 +85,7 @@ public class PropertiesSpellCheckerTest {
 
     checker.setUseSymSpellCheck(true);
     checker.getDictionary().clearCache();
-    Collection<CheckResult> results1 = checker.check(new File("target/test-classes/properties/1.properties"), false);
+    Collection<CheckResult> results1 = checker.check(file,false);
     assertEquals(results1.toString(), 2, results1.size());
 
     iter = results.iterator();
