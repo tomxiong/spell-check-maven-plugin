@@ -45,11 +45,11 @@ public class DictionaryTest {
     Dictionary dict = Dictionary.getInstance();
     dict.setUseSymSpellCheck(false);
     dict.clearCache();
-    List suggestions = dict.suggest("Hostname");
-    assertEquals(suggestions.toString(), 3, suggestions.size());
+    //List suggestions = dict.suggest("Hostname");
+    //assertEquals(suggestions.toString(), 3, suggestions.size());
     //System.out.println(suggestions.toString());
 
-    suggestions = dict.suggest("disributed");
+    List suggestions = dict.suggest("disributed");
     assertEquals(suggestions.toString(), 7, suggestions.size());
   }
 
