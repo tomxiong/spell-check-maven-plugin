@@ -41,6 +41,9 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.plugin.skipErrorNoDescriptorsFound>true</maven.plugin.skipErrorNoDescriptorsFound>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sonar.projectKey>tomxiong_spell-check-maven-plugin</sonar.projectKey>
+    <sonar.organization>tomxiong</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
 
   <build>
