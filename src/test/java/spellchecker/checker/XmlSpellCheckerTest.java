@@ -33,18 +33,18 @@ public class XmlSpellCheckerTest {
       put("message", "CDATA");
     }});
     Collection<CheckResult> result = checker
-        .check(new File("src/test/resources/xml/config.xml"), false);
+        .check(new File("target/test-classes/xml/config.xml"), false);
     assertEquals(result.toString(), 1, result.size());
-    CheckResult checkResult = (CheckResult) result.iterator().next();
+    CheckResult checkResult = result.iterator().next();
     assertEquals(checkResult.suggestions.toString(), 1, checkResult.suggestions.size());
 
 
     checker.setUseSymSpellCheck(false);
     checker.getDictionary().clearCache();
     result = checker
-        .check(new File("src/test/resources/xml/config.xml"), false);
+        .check(new File("target/test-classes/xml/config.xml"), false);
     assertEquals(result.toString(), 1, result.size());
-    checkResult = (CheckResult) result.iterator().next();
+    checkResult = result.iterator().next();
     assertEquals(checkResult.suggestions.toString(), 1, checkResult.suggestions.size());
 
   }

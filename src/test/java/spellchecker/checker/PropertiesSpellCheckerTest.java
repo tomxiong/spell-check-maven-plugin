@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -61,8 +62,8 @@ public class PropertiesSpellCheckerTest {
         new SystemStreamLog());
     checker.setUseSymSpellCheck(false);
     checker.getDictionary().clearCache();
-    checker.addAllowWord(new HashSet<>(Arrays.asList("fogam")));
-    Collection<CheckResult> results = checker.check(new File("src/test/resources/properties/1.properties"), false);
+    checker.addAllowWord(new HashSet<>(Collections.singletonList("fogam")));
+    Collection<CheckResult> results = checker.check(new File("target/test-classes/properties/1.properties"), false);
     assertEquals(results.toString(), 2, results.size());
     Iterator iter = results.iterator();
     CheckResult checkResult = (CheckResult) iter.next();
@@ -82,7 +83,7 @@ public class PropertiesSpellCheckerTest {
 
     checker.setUseSymSpellCheck(true);
     checker.getDictionary().clearCache();
-    Collection<CheckResult> results1 = checker.check(new File("src/test/resources/properties/1.properties"), false);
+    Collection<CheckResult> results1 = checker.check(new File("target/test-classes/properties/1.properties"), false);
     assertEquals(results1.toString(), 2, results1.size());
 
     iter = results.iterator();
