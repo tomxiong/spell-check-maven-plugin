@@ -1,16 +1,55 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>spellchecker</groupId>
   <artifactId>spell-check-maven-plugin</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>maven-plugin</packaging>
+
+  <name>Spell check Maven Plugin</name>
+  <description>spell checker with specific files contains text which show in UI or message from properties and xml file</description>
+  <url>https://github.com/tomxiong/spell-check-maven-plugin</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Tom Xiong</name>
+      <email>tomxiongzh@gmail.com</email>
+      <organizationUrl>https://github.com/tomxiong</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/tomxiong/spell-check-maven-plugin.git</connection>
+    <developerConnection>scm:git:ssh://github.com:tomxiong/spell-check-maven-plugin.git</developerConnection>
+    <url>http://github.com/tomxiong/spell-check-maven-plugin/tree/main</url>
+  </scm>
+
+  <prerequisites>
+    <maven>3.5</maven>
+  </prerequisites>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.plugin.skipErrorNoDescriptorsFound>true</maven.plugin.skipErrorNoDescriptorsFound>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    <pluginManagement>
       <plugins>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>
@@ -62,49 +101,6 @@
             <phase>process-classes</phase>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>spell-check-maven-plugin</artifactId>
-        <groupId>spellchecker</groupId>
-        <version>1.0-SNAPSHOT</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>package</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <allowWord>foglight,fglam,pi</allowWord>
-          <customDictionaryFile>src/test/resources/customWord.txt</customDictionaryFile>
-          <excludes>**/*.java</excludes>
-          <map>
-            <message>CDATA</message>
-            <severity-family>name,comments,help</severity-family>
-            <simple-rule>name,comments,help</simple-rule>
-            <string-rv>CDATA</string-rv>
-          </map>
-          <dirForScan>${project.basedir}/src</dirForScan>
-          <outputDir>${project.basedir}</outputDir>
-      <!--
-                <plugins>
-                    <plugin>
-                        <type>groovy</type>
-                        <method>isValidLine</method>
-                        <source>
-
-                        </source>
-                    </plugin>
-                    <plugin>
-                        <type>xml</type>
-                        <method>isValidLine</method>
-                        <source>
-                        </source>
-                    </plugin>
-                </plugins>
-                -->
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -201,45 +197,6 @@
       <version>6.6.130</version>
     </dependency>
 
-    <!--
-            <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
-                <version>2.5.6</version>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>com.puppycrawl.tools</groupId>
-                <artifactId>checkstyle</artifactId>
-                <version>8.37</version>
-            </dependency>
-            -->
   </dependencies>
-  <developers>
-    <developer>
-      <email>tomxiongzh@gmail.com</email>
-      <name>Xiong Gang</name>
-    </developer>
-  </developers>
-  <groupId>spellchecker</groupId>
 
-  <modelVersion>4.0.0</modelVersion>
-
-  <name>Spell check Maven Plugin</name>
-
-  <packaging>maven-plugin</packaging>
-
-  <prerequisites>
-    <maven>3.5</maven>
-  </prerequisites>
-
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.plugin.skipErrorNoDescriptorsFound>true</maven.plugin.skipErrorNoDescriptorsFound>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <version>1.0-SNAPSHOT</version>
 </project>
