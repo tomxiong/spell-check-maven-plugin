@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tomxiong_spell-check-maven-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=tomxiong_spell-check-maven-plugin)
+
 # maven-spell-checker-plugin
 The maven plugin for spell checker with specific files contains text which show in UI or message
  from properties and xml file.
