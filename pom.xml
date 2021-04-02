@@ -39,8 +39,11 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.plugin.skipErrorNoDescriptorsFound>true</maven.plugin.skipErrorNoDescriptorsFound>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <maven.plugin.skipErrorNoDescriptorsFound>true</maven.plugin.skipErrorNoDescriptorsFound>
+
     <sonar.projectKey>tomxiong_spell-check-maven-plugin</sonar.projectKey>
     <sonar.organization>tomxiong</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -77,6 +80,22 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
+        <plugin>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.6.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.2.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.5.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.7.7.201606060606</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -84,7 +103,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.6.0</version>
         <configuration>
           <goalPrefix>spell-check</goalPrefix>
         </configuration>
@@ -108,7 +126,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
         <configuration>
           <attach>true</attach>
         </configuration>
@@ -125,11 +142,45 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
         <configuration>
           <source>8</source>
           <target>8</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <limits>
+                    <limit>
+                      <minimum>0.6</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
 
@@ -147,79 +198,139 @@
 
   </build>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.maven.plugin-tools</groupId>
+        <artifactId>maven-plugin-annotations</artifactId>
+        <scope>provided</scope>
+        <version>3.6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <scope>provided</scope>
+        <version>3.0</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-core</artifactId>
+        <version>3.6.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <scope>test</scope>
+        <version>4.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.shared</groupId>
+        <artifactId>maven-plugin-testing-harness</artifactId>
+        <scope>test</scope>
+        <version>1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <scope>test</scope>
+        <version>1.9.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-utils</artifactId>
+        <version>3.0.22</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.9</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.maven.shared</groupId>
+        <artifactId>file-management</artifactId>
+        <version>3.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.github.mightguy</groupId>
+        <artifactId>symspell-lib</artifactId>
+        <version>6.6.130</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.21</version>
+        <scope>test</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
-      <artifactId>maven-plugin-annotations</artifactId>
       <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
       <scope>provided</scope>
-      <version>3.6.0</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <groupId>org.apache.maven</groupId>
       <scope>provided</scope>
-      <version>3.0</version>
     </dependency>
 
 
     <dependency>
-      <artifactId>maven-core</artifactId>
       <groupId>org.apache.maven</groupId>
-      <version>3.6.0</version>
+      <artifactId>maven-core</artifactId>
     </dependency>
 
     <dependency>
-      <artifactId>junit</artifactId>
       <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
       <scope>test</scope>
-      <version>4.12</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.maven.shared</groupId>
       <artifactId>maven-plugin-testing-harness</artifactId>
-      <groupId>org.apache.maven.shared</groupId>
       <scope>test</scope>
-      <version>1.1</version>
     </dependency>
     <dependency>
-      <artifactId>mockito-core</artifactId>
       <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
       <scope>test</scope>
-      <version>1.9.0</version>
     </dependency>
 
     <dependency>
-      <artifactId>plexus-utils</artifactId>
       <groupId>org.codehaus.plexus</groupId>
-      <version>3.0.22</version>
+      <artifactId>plexus-utils</artifactId>
     </dependency>
 
-
     <dependency>
-      <artifactId>commons-lang3</artifactId>
       <groupId>org.apache.commons</groupId>
-      <version>3.9</version>
+      <artifactId>commons-lang3</artifactId>
     </dependency>
 
-
     <dependency>
-      <artifactId>file-management</artifactId>
       <groupId>org.apache.maven.shared</groupId>
-      <version>3.0.0</version>
+      <artifactId>file-management</artifactId>
     </dependency>
 
     <dependency>
-      <artifactId>symspell-lib</artifactId>
       <groupId>io.github.mightguy</groupId>
-      <version>6.6.130</version>
+      <artifactId>symspell-lib</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.21</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
-
 </project>
