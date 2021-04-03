@@ -1,5 +1,6 @@
 [![CI of Github Action](https://github.com/tomxiong/spell-check-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/tomxiong/spell-check-maven-plugin/actions/workflows/maven.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tomxiong_spell-check-maven-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=tomxiong_spell-check-maven-plugin)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://raw.githubusercontent.com/tomxiong/spell-check-maven-plugin/main/LICENSE)
 
 # maven-spell-checker-plugin
 The maven plugin for spell checker with specific files contains text which show in UI or message
