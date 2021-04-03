@@ -321,7 +321,7 @@
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
         <scope>test</scope>
-        <version>1.9.0</version>
+        <version>3.8.0</version>
       </dependency>
 
       <dependency>
@@ -345,7 +345,7 @@
       <dependency>
         <groupId>io.github.mightguy</groupId>
         <artifactId>symspell-lib</artifactId>
-        <version>6.6.130</version>
+        <version>6.6.154</version>
       </dependency>
 
       <dependency>
