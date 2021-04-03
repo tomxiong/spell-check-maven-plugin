@@ -44,7 +44,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pscan
       
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
+    - uses: codecov/codecov-action@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./**/target/site/jacoco/jacoco.xml
+        name: codecov
