@@ -23,6 +23,7 @@ jobs:
         server-password: MAVEN_PASSWORD
         gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
+        interactiveMode: "false"
     - name: Deploy with Maven
       run: mvn -B clean deploy -Pdeploy -X
       env:
