@@ -1,5 +1,6 @@
-package spellchecker.checker;
+package com.github.tomxiong.spellchecker.checker;
 
+import com.github.tomxiong.spellchecker.dictionary.Dictionary;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -19,7 +20,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import spellchecker.dictionary.Dictionary;
 
 public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecker {
 

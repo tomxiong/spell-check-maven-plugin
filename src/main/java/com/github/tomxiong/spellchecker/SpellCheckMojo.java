@@ -1,14 +1,14 @@
-package spellchecker;
+package com.github.tomxiong.spellchecker;
 
 import static java.util.Objects.isNull;
 
+import com.github.tomxiong.spellchecker.dictionary.Dictionary;
 import java.io.File;
 import java.util.HashSet;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import spellchecker.checker.SpellChecker;
-import spellchecker.dictionary.Dictionary;
+import com.github.tomxiong.spellchecker.checker.SpellChecker;
 
 @Mojo(name = "check", defaultPhase = LifecyclePhase.VERIFY, threadSafe = true)
 public class SpellCheckMojo extends AbstractSpellMojo {

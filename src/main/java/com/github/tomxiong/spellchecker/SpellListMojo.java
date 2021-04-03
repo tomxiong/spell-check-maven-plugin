@@ -1,4 +1,4 @@
-package spellchecker;
+package com.github.tomxiong.spellchecker;
 
 import static java.util.Objects.isNull;
 

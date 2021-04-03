@@ -1,4 +1,4 @@
-package spellchecker.checker;
+package com.github.tomxiong.spellchecker.checker;
 
 import java.util.Collection;
 import java.util.Map;

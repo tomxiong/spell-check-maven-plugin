@@ -1,4 +1,4 @@
-package spellchecker.dictionary;
+package com.github.tomxiong.spellchecker.dictionary;
 
 import io.github.mightguy.spellcheck.symspell.api.DataHolder;
 import io.github.mightguy.spellcheck.symspell.common.DictionaryItem;

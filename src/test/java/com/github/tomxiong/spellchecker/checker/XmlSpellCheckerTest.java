@@ -1,14 +1,14 @@
-package spellchecker.checker;
+package com.github.tomxiong.spellchecker.checker;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.github.tomxiong.spellchecker.dictionary.Dictionary;
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.Test;
-import spellchecker.dictionary.Dictionary;
 
 public class XmlSpellCheckerTest {
 

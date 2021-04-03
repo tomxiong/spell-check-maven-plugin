@@ -1,4 +1,4 @@
-package spellchecker;
+package com.github.tomxiong.spellchecker;
 
 import java.io.BufferedReader;
 import java.io.File;

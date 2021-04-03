@@ -1,4 +1,4 @@
-package spellchecker.dictionary;
+package com.github.tomxiong.spellchecker.dictionary;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;

@@ -1,22 +1,17 @@
-package spellchecker.checker;
+package com.github.tomxiong.spellchecker.checker;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.github.tomxiong.spellchecker.dictionary.Dictionary;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.Test;
-import spellchecker.dictionary.Dictionary;
 
 public class JavaSpellCheckerTest {
 
@@ -83,7 +78,7 @@ public class JavaSpellCheckerTest {
         new SystemStreamLog());
     checker.setUseSymSpellCheck(true);
     Collection<CheckResult> result = checker
-        .check(new File("src/test/java/spellchecker/checker/JavaSpellCheckerTest.java"), false);
+        .check(new File("src/test/java/com/github/tomxiong/spellchecker/checker/JavaSpellCheckerTest.java"), false);
     assertTrue(result.isEmpty());
 
     result = checker.check(new File("src/test/resources/code/test.groovy"), false);

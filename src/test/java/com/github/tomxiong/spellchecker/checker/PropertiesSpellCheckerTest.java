@@ -1,33 +1,17 @@
-package spellchecker.checker;
+package com.github.tomxiong.spellchecker.checker;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import io.github.mightguy.spellcheck.symspell.api.DataHolder;
-import io.github.mightguy.spellcheck.symspell.common.DictionaryItem;
-import io.github.mightguy.spellcheck.symspell.common.Murmur3HashFunction;
-import io.github.mightguy.spellcheck.symspell.common.SpellCheckSettings;
-import io.github.mightguy.spellcheck.symspell.common.SuggestionItem;
-import io.github.mightguy.spellcheck.symspell.common.Verbosity;
-import io.github.mightguy.spellcheck.symspell.common.WeightedDamerauLevenshteinDistance;
-import io.github.mightguy.spellcheck.symspell.exception.SpellCheckException;
-import io.github.mightguy.spellcheck.symspell.impl.InMemoryDataHolder;
-import io.github.mightguy.spellcheck.symspell.impl.SymSpellCheck;
-import java.io.BufferedReader;
+import com.github.tomxiong.spellchecker.dictionary.Dictionary;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.Test;
-import spellchecker.dictionary.Dictionary;
 
 public class PropertiesSpellCheckerTest {
 

@@ -1,4 +1,4 @@
-package spellchecker;
+package com.github.tomxiong.spellchecker;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +11,7 @@ import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.project.MavenProject;
 import org.junit.Test;
 import org.mockito.Mockito;
-import spellchecker.checker.JavaSpellChecker;
+import com.github.tomxiong.spellchecker.checker.JavaSpellChecker;
 
 public class SpellCheckMojoTest extends AbstractMojoTestCase {
 

@@ -8,7 +8,7 @@ The maven plugin for spell checker with specific files contains text which show 
 Add below plugin to pom file
 ```
 <plugin>
-    <groupId>spellchecker</groupId>
+    <groupId>com.github.tomxiong</groupId>
     <artifactId>spell-check-maven-plugin</artifactId>
     <version>1.0-SNAPSHOT</version>
     <executions>
@@ -40,10 +40,13 @@ You can execute *mvn install* to build the project and the check action will be 
 ```
 mvn spell-check-maven-plugin:check
 ```
-or 
+It will execute spell check for all text of UI element or properties of you custom
+Note: This plugin support properties file, java, groovy by default.For xml, you should define which part contains text show in ui, so the plugin will figure out the text base on the definition.  
 ```
-mvn install
+mvn spell-check-maven-plugin:list
 ```
+It will list all text instead of check. We can use it to build your custom dictionary base on your domain common language with this list file.
+Note: It will help the user to tuning the definition of xml ui or custom dictionary.
 
 # How to find the result of spell check?
 You can find the _spelling_check_result.txt_ as the spell check result in the project folder when you execute the spell check.
@@ -62,3 +65,7 @@ You can file a issue to this project in github if you have any question or find 
 # How to extend the usage
 Because its target to check the UI for specific UI project which using XML and properties to build the message of UI.
 You can fork it and improve it by yourselves.
+
+# Next plan
+-[ ] Add groovy script support custom logical to find out the text element of XML ui
+-[ ] Add ML support to build custom dictionary base on the specific domain of projects. 

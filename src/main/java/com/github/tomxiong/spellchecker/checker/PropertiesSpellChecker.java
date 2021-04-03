@@ -1,9 +1,9 @@
-package spellchecker.checker;
+package com.github.tomxiong.spellchecker.checker;
 
+import com.github.tomxiong.spellchecker.dictionary.Dictionary;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.maven.plugin.logging.Log;
-import spellchecker.dictionary.Dictionary;
 
 public class PropertiesSpellChecker extends AbstractSpellChecker implements SpellChecker {
 

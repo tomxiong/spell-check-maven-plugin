@@ -1,7 +1,8 @@
-package spellchecker;
+package com.github.tomxiong.spellchecker;
 
 import static java.util.Objects.isNull;
 
+import com.github.tomxiong.spellchecker.dictionary.Dictionary;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.FileWriter;
@@ -19,12 +20,11 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
-import spellchecker.checker.CheckResult;
-import spellchecker.checker.JavaSpellChecker;
-import spellchecker.checker.PropertiesSpellChecker;
-import spellchecker.checker.SpellChecker;
-import spellchecker.checker.XmlSpellChecker;
-import spellchecker.dictionary.Dictionary;
+import com.github.tomxiong.spellchecker.checker.CheckResult;
+import com.github.tomxiong.spellchecker.checker.JavaSpellChecker;
+import com.github.tomxiong.spellchecker.checker.PropertiesSpellChecker;
+import com.github.tomxiong.spellchecker.checker.SpellChecker;
+import com.github.tomxiong.spellchecker.checker.XmlSpellChecker;
 
 public abstract class AbstractSpellMojo extends AbstractMojo {
 

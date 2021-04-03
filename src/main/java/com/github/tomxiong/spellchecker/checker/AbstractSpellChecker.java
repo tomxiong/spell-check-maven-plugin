@@ -1,7 +1,8 @@
-package spellchecker.checker;
+package com.github.tomxiong.spellchecker.checker;
 
 import static java.util.Objects.isNull;
 
+import com.github.tomxiong.spellchecker.dictionary.Dictionary;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -20,7 +21,6 @@ import java.util.Set;
 //import java.util.regex.Matcher;
 //import java.util.regex.Pattern;
 import org.apache.maven.plugin.logging.Log;
-import spellchecker.dictionary.Dictionary;
 
 public abstract class AbstractSpellChecker {
 
