@@ -1,3 +1,4 @@
+[![CI of Github Action](https://github.com/tomxiong/spell-check-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/tomxiong/spell-check-maven-plugin/actions/workflows/maven.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tomxiong_spell-check-maven-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=tomxiong_spell-check-maven-plugin)
 
 # maven-spell-checker-plugin
@@ -67,5 +68,5 @@ Because its target to check the UI for specific UI project which using XML and p
 You can fork it and improve it by yourselves.
 
 # Next plan
--[ ] Add groovy script support custom logical to find out the text element of XML ui
--[ ] Add ML support to build custom dictionary base on the specific domain of projects. 
+- [ ] Add groovy script support custom logical to find out the text element of XML ui
+- [ ] Add ML support to build custom dictionary base on the specific domain of projects. 
