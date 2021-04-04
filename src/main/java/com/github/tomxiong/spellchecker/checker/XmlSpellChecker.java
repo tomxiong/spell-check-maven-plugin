@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,15 +35,15 @@ public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecke
     if (null == line || line.isEmpty()) {
       throw new IllegalArgumentException("line to tokenize shout not be null or empty");
     }
-    List<String> words = new LinkedList<>();
-    words.addAll(findMatchedWords(line));
-    return words;
+    return new LinkedList<>(findMatchedWords(line));
   }
 
   @Override
   public Collection<CheckResult> check(File file, boolean onlyList) {
     DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
     try {
+      builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
       DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
       Document document = documentBuilder.parse(file);
       if (getLogger() != null && getLogger().isDebugEnabled()) {
@@ -56,13 +57,9 @@ public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecke
       }
       return fileResults;
     } catch (ParserConfigurationException | SAXException | IOException e) {
-      if (getLogger() != null) {
-        getLogger().error(e);
-      } else {
-        e.printStackTrace();
-      }
+      getLogger().error(e);
     }
-    return Collections.EMPTY_SET;
+    return Collections.emptyList();
   }
 
   @Override
@@ -72,82 +69,81 @@ public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecke
 
   private Collection<CheckResult> checkNode(Node node, boolean onlyList) {
     Collection<CheckResult> nodeResult = new LinkedHashSet<>();
-    if (getLogger() != null && getLogger().isDebugEnabled()) {
-      //getLogger().debug("Checking node : " + node.getNodeName());
-    }
     if (isValidNode(node.getNodeName())) {
-      if (getLogger() != null && getLogger().isDebugEnabled()) {
-        getLogger().debug("Checking node " + node.getNodeName());
-      }
       Set<String> attNamesNeedCheck = getCheckListMap().get(node.getNodeName());
       if (!attNamesNeedCheck.isEmpty()) {
-        if (getLogger() != null && getLogger().isDebugEnabled()) {
-          getLogger().debug("Checking attributes : " + node.getNodeName());
-        }
         if (attNamesNeedCheck.contains("CDATA")) {
-          String textContent = node.getTextContent();
-          if (textContent != null && !textContent.trim().isEmpty() && isValidLine(textContent.trim())) {
-            if (getLogger() != null && getLogger().isDebugEnabled()) {
-              getLogger().debug("Checking text " + textContent);
-            }
-            if (onlyList) {
-              nodeResult.add(new CheckResult(0, "[" + node.getNodeName() + "]'s text : " + textContent.trim(), null));
-            }
-            else {
-              Map<String, Collection<String>> lineResult = checkLine(textContent.trim());
-              if (!lineResult.isEmpty()) {
-                nodeResult.add(new CheckResult(0, textContent.trim(), lineResult));
-              }
-            }
-          }
-
-          String nodeValue = node.getNodeValue();
-          if (nodeValue != null && !nodeValue.trim().isEmpty()) {
-            if (getLogger() != null && getLogger().isDebugEnabled()) {
-              getLogger().debug("Checking value " + nodeValue);
-            }
-            if (onlyList) {
-              nodeResult.add(new CheckResult(0, "[" + node.getNodeName() + "]'s value : " + nodeValue.trim(), null));
-            }
-            else {
-              Map<String, Collection<String>> lineResult = checkLine(nodeValue.trim());
-              if (!lineResult.isEmpty()) {
-                nodeResult.add(new CheckResult(0, nodeValue.trim(), lineResult));
-              }
-            }
-          }
+          checkTextContent(node, onlyList, nodeResult);
+          checkNodeValue(node, onlyList, nodeResult);
         }
-        NamedNodeMap nodeMap = node.getAttributes();
-        if (nodeMap != null && nodeMap.getLength() > 0) {
-          for (int count = 0; count < nodeMap.getLength(); count++) {
-            Node attNode = nodeMap.item(count);
-            if (isValidNodeAttribute(attNamesNeedCheck, attNode.getNodeName())) {
-              String nodeValue = attNode.getNodeValue();
-              if (nodeValue != null && !nodeValue.trim().isEmpty()) {
-                if (onlyList) {
-                  nodeResult.add(new CheckResult(0, "[" + node.getNodeName() + "]'s attribute [" + attNode.getNodeName() + "] : " + nodeValue.trim(), null));
-                }
-                else {
-                  Map<String, Collection<String>> lineResult = checkLine(nodeValue.trim());
-                  if (!lineResult.isEmpty()) {
-                    nodeResult.add(new CheckResult(0, nodeValue.trim(), lineResult));
-                  }
-                }
-              }
-            }
-          }
-        }
+        checkAtrributes(node, onlyList, nodeResult, attNamesNeedCheck);
       }
     }
     NodeList list = node.getChildNodes();
     for (int count = 0; count < list.getLength(); count++) {
       Node subNode = list.item(count);
-      if (getLogger() != null && getLogger().isDebugEnabled()) {
-        //getLogger().debug("Check " +node.getNodeName() + "'s sub nodes.");
-      }
       nodeResult.addAll(checkNode(subNode, onlyList));
     }
     return nodeResult;
+  }
+
+  private void checkAtrributes(Node node, boolean onlyList, Collection<CheckResult> nodeResult,
+      Set<String> attNamesNeedCheck) {
+    NamedNodeMap nodeMap = node.getAttributes();
+    if (nodeMap != null && nodeMap.getLength() > 0) {
+      for (int count = 0; count < nodeMap.getLength(); count++) {
+        Node attNode = nodeMap.item(count);
+        if (isValidNodeAttribute(attNamesNeedCheck, attNode.getNodeName())) {
+          checkAttributeNode(node, onlyList, nodeResult, attNode);
+        }
+      }
+    }
+  }
+
+  private void checkAttributeNode(Node node, boolean onlyList, Collection<CheckResult> nodeResult,
+      Node attNode) {
+    String nodeValue = attNode.getNodeValue();
+    if (nodeValue != null && !nodeValue.trim().isEmpty()) {
+      if (onlyList) {
+        nodeResult.add(new CheckResult(0, "[" + node.getNodeName() + "]'s attribute [" + attNode.getNodeName() + "] : " + nodeValue.trim(), null));
+      }
+      else {
+        Map<String, Collection<String>> lineResult = checkLine(nodeValue.trim());
+        if (!lineResult.isEmpty()) {
+          nodeResult.add(new CheckResult(0, nodeValue.trim(), lineResult));
+        }
+      }
+    }
+  }
+
+  private void checkTextContent(Node node, boolean onlyList, Collection<CheckResult> nodeResult) {
+    String textContent = node.getTextContent();
+    if (textContent != null && !textContent.trim().isEmpty() && isValidLine(textContent.trim())) {
+      if (onlyList) {
+        nodeResult.add(new CheckResult(0, "[" + node.getNodeName() + "]'s text : " + textContent.trim(), null));
+      }
+      else {
+        Map<String, Collection<String>> lineResult = checkLine(textContent.trim());
+        if (!lineResult.isEmpty()) {
+          nodeResult.add(new CheckResult(0, textContent.trim(), lineResult));
+        }
+      }
+    }
+  }
+
+  private void checkNodeValue(Node node, boolean onlyList, Collection<CheckResult> nodeResult) {
+    String nodeValue = node.getNodeValue();
+    if (nodeValue != null && !nodeValue.trim().isEmpty()) {
+      if (onlyList) {
+        nodeResult.add(new CheckResult(0, "[" + node.getNodeName() + "]'s value : " + nodeValue.trim(), null));
+      }
+      else {
+        Map<String, Collection<String>> lineResult = checkLine(nodeValue.trim());
+        if (!lineResult.isEmpty()) {
+          nodeResult.add(new CheckResult(0, nodeValue.trim(), lineResult));
+        }
+      }
+    }
   }
 
   private boolean isValidNodeAttribute(Set<String> attrs, String attrName) {
@@ -156,21 +152,9 @@ public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecke
 
   private boolean isValidNode(String nodeName) {
     if (skipCheck.contains(nodeName)) {
-      if (getLogger() != null && getLogger().isDebugEnabled()) {
-        getLogger().debug("Skip node " + nodeName);
-      }
       return false;
     }
-    if (getCheckListMap().containsKey(nodeName)) {
-      if (getLogger() != null && getLogger().isDebugEnabled()) {
-        getLogger().debug("Need to check node " + nodeName);
-      }
-      return true;
-    }
-    if (getLogger() != null && getLogger().isDebugEnabled()) {
-      //getLogger().debug("The node " + nodeName + " is not valid.");
-    }
-    return false;
+    return getCheckListMap().containsKey(nodeName);
   }
 
 }

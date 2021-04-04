@@ -24,24 +24,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 import org.apache.maven.plugin.logging.Log;
 
 public class Dictionary {
 
   private static final int MAX_WORD_DIFFERENCE_IN_LENGTH = 3;
   private static Dictionary dictionary;
-  private static Pattern NUMBER_PATTERN = Pattern.compile("[0x|0X]?+\\d{1,}[l|L]?+");
-
-  private static Pattern DECIMAL_PATTERN = Pattern.compile("[0x|0X]?+\\d*.\\d*[d|D|f|F]?+");
-  private static int MAX_EDIT_DISTANCE = 2;
-  private static int MAX_RESULT = 10;
+  private static int maxEditDistance = 2;
+  private static int maxResult = 10;
   protected Log logger;
-  private Map<Integer, Set<String>> WORDS = new LinkedHashMap<>();
-  private Map<String, List<String>> CacheRESULTS = new LinkedHashMap<>();
+  private Map<Integer, Set<String>> words = new LinkedHashMap<>();
+  private Map<String, List<String>> cacheRESULTS = new LinkedHashMap<>();
   private SpellCheckSettings spellCheckSettings;
-
-  private DataHolder dataHolder;
 
   private SymSpellCheck symSpellCheck;
 
@@ -67,7 +61,7 @@ public class Dictionary {
   }
 
   private void initSuggester() {
-    suggester = SpellSuggester.getInstance(this.WORDS);
+    suggester = SpellSuggester.getInstance(this.words);
   }
 
   protected static synchronized Dictionary getInstance(String dictionaryFile) {
@@ -105,15 +99,9 @@ public class Dictionary {
   private void loadDictionaryByResource(String fileName) {
     try (InputStream inputStream = Dictionary.class.getClassLoader().getResourceAsStream(fileName);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
-      if (logger != null && logger.isDebugEnabled()) {
-        logger.debug("Before load dictionary " + fileName + " " + countWords());
-      }
-      WORDS = parseWordsFromDict(bufferedReader, WORDS);
-      if (logger != null && logger.isDebugEnabled()) {
-        logger.debug("After load dictionary " + fileName + " " + countWords());
-      }
+      words = parseWordsFromDict(bufferedReader, words);
     } catch (IOException e) {
-      WORDS.clear();
+      words.clear();
       e.printStackTrace();
     }
   }
@@ -142,15 +130,7 @@ public class Dictionary {
   private void loadDictionary(File dictFile) {
     try (InputStream inputStream = new FileInputStream(dictFile);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
-      if (getLogger() != null && getLogger().isDebugEnabled()) {
-        getLogger()
-            .debug("Before load dictionary " + dictFile.getCanonicalPath() + " " + countWords());
-      }
-      WORDS = parseWordsFromDict(bufferedReader, WORDS);
-      if (getLogger() != null && getLogger().isDebugEnabled()) {
-        getLogger()
-            .debug("After load dictionary " + dictFile.getCanonicalPath() + " " + countWords());
-      }
+      words = parseWordsFromDict(bufferedReader, words);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
     }
@@ -162,7 +142,7 @@ public class Dictionary {
         .deletionWeight(1)
         .insertionWeight(1)
         .replaceWeight(1)
-        .maxEditDistance(MAX_EDIT_DISTANCE)
+        .maxEditDistance(maxEditDistance)
         .transpositionWeight(1)
         .topK(5)
         .prefixLength(23)
@@ -171,7 +151,7 @@ public class Dictionary {
         new WeightedDamerauLevenshteinDistance(spellCheckSettings.getDeletionWeight(),
             spellCheckSettings.getInsertionWeight(), spellCheckSettings.getReplaceWeight(),
             spellCheckSettings.getTranspositionWeight(), new QwertyDistance());
-    dataHolder = new InMemoryDataHolder(spellCheckSettings, new Murmur3HashFunction());
+    DataHolder dataHolder = new InMemoryDataHolder(spellCheckSettings, new Murmur3HashFunction());
 
     symSpellCheck = new SymSpellCheck(dataHolder, weightedDamerauLevenshteinDistance,
         spellCheckSettings);
@@ -198,28 +178,20 @@ public class Dictionary {
 
   public long countWords() {
     long count = 0;
-    for (Set<String> collection : this.WORDS.values()) {
+    for (Set<String> collection : this.words.values()) {
       count = count + collection.size();
     }
     return count;
   }
 
   public boolean isWord(String word) {
-    Set<String> dictByLength = this.WORDS.get(word.length());
+    Set<String> dictByLength = this.words.get(word.length());
     return (dictByLength != null && dictByLength.contains(word));
-/*
-    Matcher matcher = NUMBER_PATTERN.matcher(word);
-    if (matcher.matches()) {
-      return true;
-    }
-
-    matcher = DECIMAL_PATTERN.matcher(word);
-    return matcher.matches();*/
   }
 
   public List<String> suggest(String word) {
-    if (CacheRESULTS.containsKey(word.toLowerCase())) {
-      return CacheRESULTS.get(word.toLowerCase());
+    if (cacheRESULTS.containsKey(word.toLowerCase())) {
+      return cacheRESULTS.get(word.toLowerCase());
     }
 
     Map<Integer, List<String>> results = suggest(word.toLowerCase(),
@@ -230,17 +202,17 @@ public class Dictionary {
     if (zeroDistance != null && zeroDistance.isEmpty()) {
       result.addAll(zeroDistance);
     }
-    for (int i = 1; i <= MAX_EDIT_DISTANCE; i++) {
+    for (int i = 1; i <= maxEditDistance; i++) {
       List<String> row = results.get(i);
       if (row != null && !row.isEmpty()) {
         for (String rankedWord : row) {
-          if (result.size() < MAX_RESULT) {
+          if (result.size() < maxResult) {
             result.add(rankedWord);
           }
         }
       }
     }
-    CacheRESULTS.put(word.toLowerCase(), result);
+    cacheRESULTS.put(word.toLowerCase(), result);
     return result;
   }
 
@@ -257,12 +229,9 @@ public class Dictionary {
     }
 
     if (isUseSymSpellCheck) {
-      if (getLogger() != null && getLogger().isDebugEnabled()) {
-        getLogger().debug("Using symspell checker.");
-      }
       return getSuggestionBySymSpellChecker(word);
     } else {
-      return this.suggester.suggest(word, tol, MAX_EDIT_DISTANCE);
+      return this.suggester.suggest(word, tol, maxEditDistance);
     }
   }
 
@@ -299,7 +268,7 @@ public class Dictionary {
   }
 
   public void clearCache() {
-    this.CacheRESULTS.clear();
+    this.cacheRESULTS.clear();
   }
 
   public void setUseDamerauLevenshteinDistance(boolean useDamerauLevenshteinDistance) {

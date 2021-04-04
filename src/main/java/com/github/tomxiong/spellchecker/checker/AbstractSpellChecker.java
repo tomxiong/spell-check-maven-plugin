@@ -18,13 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
 import org.apache.maven.plugin.logging.Log;
 
 public abstract class AbstractSpellChecker {
 
-  //private static Pattern WORD_PATTERN = Pattern.compile("\\w{1,}");
   protected Dictionary dictionary;
   protected Log logger;
 
@@ -32,7 +29,7 @@ public abstract class AbstractSpellChecker {
 
   private Set<String> allowWord = new HashSet<>();
 
-  public AbstractSpellChecker(Dictionary dict, Log logger) {
+  protected AbstractSpellChecker(Dictionary dict, Log logger) {
     this.logger = logger;
     this.dictionary = dict;
   }
@@ -47,20 +44,14 @@ public abstract class AbstractSpellChecker {
 
   protected Collection<String> checkWordsAndSuggest(String word) {
     if (isAlpha(word)) {
-      if (getLogger().isDebugEnabled()) {
-        getLogger().debug("The word is alpha : " + word);
-      }
       if (!dictionary.isWord(word.toLowerCase()) && !isCustomWord(word.toLowerCase())) {
         return dictionary.suggest(word.toLowerCase());
       }
       else {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
       }
     }
-    if (getLogger().isDebugEnabled()) {
-      getLogger().debug("The word is not alpha : " + word);
-    }
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   public boolean isAlpha(String str) {
@@ -75,25 +66,8 @@ public abstract class AbstractSpellChecker {
   public abstract List<String> tokenize(String line);
 
   protected Set<String> findMatchedWords(String newline) {
-    Set<String> words = new LinkedHashSet<>();
-    String[] splitWords = newline.split("\\,|\\s+|\\.|\\:");
-    for(String word :splitWords) {
-      words.add(word);
-    }
-    //return words;
-    /*Matcher matcher = WORD_PATTERN.matcher(newline);
-    String extractedWord;
-
-    while (matcher.find()) {
-      extractedWord = matcher.group(0);
-      if (isValidWord(extractedWord)) {
-        //if (!isCompoundWord(extractedWord)) {
-          words.add(extractedWord);
-        *//*} else {
-          words.addAll(parseCompoundWord(extractedWord));
-        }*//*
-      }
-    }*/
+    String[] splitWords = newline.split(",|\\s+|\\.|:");
+    Set<String> words = new LinkedHashSet<>(Arrays.asList(splitWords));
     words.remove("");
     return words;
   }
@@ -113,7 +87,7 @@ public abstract class AbstractSpellChecker {
     for (int i = 0; i < len; i++) {
       // checks whether the character is neither a letter nor a digit
       // if it is neither a letter, nor a digit then it will return false
-      if ((Character.isDigit(extractedWord.charAt(i)) == true)) {
+      if ((Character.isDigit(extractedWord.charAt(i)))) {
         return false;
       }
     }
@@ -138,7 +112,8 @@ public abstract class AbstractSpellChecker {
     StringBuilder builder = new StringBuilder(1024);
     builder.delete(0, builder.length());
     final int len = compoundWord.length();
-    int i = 0, j = 0;
+    int i = 0;
+    int j = 0;
     char c;
     for (; i < len; i++) {
       if (i == len - 1) {
@@ -147,11 +122,10 @@ public abstract class AbstractSpellChecker {
       }
 
       c = compoundWord.charAt(i);
-      if (c >= 'A' && c <= 'Z')
-        if (i > j) {
+      if ((c >= 'A' && c <= 'Z') && (i > j)) {
           words.add(compoundWord.substring(j, i));
           j = i;
-        }
+      }
     }
     return words;
   }
@@ -169,37 +143,14 @@ public abstract class AbstractSpellChecker {
     Map<String, Collection<String>> results = new LinkedHashMap<>(checkedWords.size());
     for (String word : checkedWords) {
       try {
-        if (getLogger().isDebugEnabled()) {
-          getLogger().debug("Checking word : " + word);
-        }
         Collection<String> suggestions = checkWordsAndSuggest(word);
         if (!suggestions.isEmpty()) {
-          if (getLogger().isDebugEnabled()) {
-            getLogger().debug("Checked word : " + word);
-            getLogger().debug("add suggestion : " + suggestions.toString());
-          }
           results.put(word, suggestions);
         }
       } catch (NoSuchElementException e) {
-        if (getLogger() != null) {
-          getLogger().error("Failed to check line [" + line + "]'s word " + word, e);
-        } else {
-          e.printStackTrace();
-        }
-        //resultBuffer.append("line ").append(lineNum).append()
-      } catch (IllegalArgumentException e) {
-        if (getLogger() != null) {
-          getLogger().error("Failed to check line [" + line + "]'s word " + word, e);
-        } else {
-          e.printStackTrace();
-        }
-        throw e;
+        getLogger().error("Failed to check line [" + line + "]'s word " + word, e);
       } catch (Exception e) {
-        if (getLogger() != null) {
-          getLogger().error("Failed to check line [" + line + "]'s word " + word, e);
-        } else {
-          e.printStackTrace();
-        }
+        getLogger().error("Failed to check line [" + line + "]'s word " + word, e);
         throw e;
       }
     }
@@ -227,25 +178,18 @@ public abstract class AbstractSpellChecker {
       }
       return lineResults;
     } catch (Exception e) {
-      if (getLogger() != null) {
-        getLogger().error("Failed to check file:" + file.getName(), e);
-      } else {
-        e.printStackTrace();
-      }
+      getLogger().error("Failed to check file:" + file.getName(), e);
     }
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   protected abstract boolean isValidLine(String trim);
 
-  public void addCustomCheckList(LinkedHashMap<String, String> xmlElementMap) {
+  public void addCustomCheckList(Map<String, String> xmlElementMap) {
     for (Map.Entry<String, String> entrySet : xmlElementMap.entrySet()) {
       String value = entrySet.getValue();
       if (!isNull(value) && !value.isEmpty()) {
         needCheck.put(entrySet.getKey(), new HashSet<>(Arrays.asList(value.split(","))));
-        if (getLogger() != null && getLogger().isDebugEnabled()) {
-          getLogger().debug("add custom item for xml :[" + entrySet.getKey() + ":" + value + "]");
-        }
       }
     }
   }
@@ -254,7 +198,7 @@ public abstract class AbstractSpellChecker {
     return needCheck;
   }
 
-  public void addAllowWord(HashSet<String> allowWord) {
+  public void addAllowWord(Set<String> allowWord) {
     this.allowWord.addAll(allowWord);
   }
 

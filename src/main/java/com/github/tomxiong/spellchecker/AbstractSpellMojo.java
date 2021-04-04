@@ -7,6 +7,7 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,7 +42,7 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
   @Parameter(property = "skip", defaultValue = "false")
   public boolean skip = false;
   @Parameter
-  public LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+  public Map<String, String> map = new LinkedHashMap<>();
   @Parameter(property = "basedir", required = false)
   protected File baseDirectory;
   @Parameter(defaultValue = "${project}", readonly = true)
@@ -108,9 +109,11 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
         }
         java.nio.file.Files.delete(reportFile.toPath());
       }
-      reportFile.createNewFile();
+      if (!reportFile.createNewFile()) {
+        throw new FileAlreadyExistsException(reportFile.getPath());
+      }
     } catch (IOException e) {
-      e.printStackTrace();
+      getLog().error("Failed to create report file: " + reportFile.getPath(), e);
     }
     try (FileWriter writer = new FileWriter((reportFile))) {
       if (getLog().isDebugEnabled()) {
@@ -150,7 +153,7 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
         return checker.check(file, onlyList);
       }
     }
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   protected void checkFilesAndGenerateReport(File baseDirectory, boolean onlyList) {
@@ -178,5 +181,21 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
         generateReport("spelling_check_result.txt", checkResultMap);
       }
     }
+  }
+
+  protected boolean invalidRequiredArguments() {
+    if (skip) {
+      getLog().warn("skipped");
+      return true;
+    }
+    if (isNull(dirForScan) || !dirForScan.exists()) {
+      getLog().warn("Skipped" + System.lineSeparator()
+          + "Make sure you are specifying the correct source directory.");
+      return true;
+    }
+    if (baseDirectory == null && project != null) {
+      baseDirectory = project.getBasedir();
+    }
+    return false;
   }
 }

@@ -33,10 +33,6 @@ public class SpellSuggester {
 
   public Map<Integer, List<String>> suggest(String word, int tol, int maxEditDistance) {
     Map<Integer, List<String>> result = new LinkedHashMap<>();
-
-    //for (int i = 0; i <= maxEditDistance; i++) {
-    //  result.put(i, new ArrayList<>());
-    //}
     for (int i = 0; i <= tol; i++) {
       if (0 != i) {
         doSuggest(word, words,word.length() + i, result, maxEditDistance);
@@ -63,15 +59,10 @@ public class SpellSuggester {
     Set<String> wordsByLen = dict.get(len);
     if (wordsByLen != null) {
       for (String wordByLen : wordsByLen) {
-        //int editDistance = computeDamerauLevenshteinDistance(word, candidateWord);
         int editDistance = Math
             .toIntExact(Math.round(stringDistance.getDistance(word, wordByLen, maxEditDistance)));
         if (editDistance > 0 && editDistance <= maxEditDistance) {
-          List candidateWords = result.get(editDistance);
-          if (candidateWords == null) {
-            candidateWords = new LinkedList();
-            result.put(editDistance, candidateWords);
-          }
+          List<String> candidateWords = result.computeIfAbsent(editDistance, k -> new LinkedList<>());
           candidateWords.add(wordByLen);
         }
       }
