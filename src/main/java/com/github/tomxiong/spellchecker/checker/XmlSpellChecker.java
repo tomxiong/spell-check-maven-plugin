@@ -46,9 +46,6 @@ public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecke
       builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
       DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
       Document document = documentBuilder.parse(file);
-      if (getLogger() != null && getLogger().isDebugEnabled()) {
-        getLogger().debug("Parsed file : " + file.getName());
-      }
       Collection<CheckResult> fileResults = new LinkedHashSet<>();
       NodeList list = document.getChildNodes();
       for (int count = 0; count < list.getLength(); count++) {
@@ -64,7 +61,7 @@ public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecke
 
   @Override
   protected boolean isValidLine(String trim) {
-    return isAlpha(trim);
+    return true;
   }
 
   private Collection<CheckResult> checkNode(Node node, boolean onlyList) {
@@ -76,7 +73,7 @@ public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecke
           checkTextContent(node, onlyList, nodeResult);
           checkNodeValue(node, onlyList, nodeResult);
         }
-        checkAtrributes(node, onlyList, nodeResult, attNamesNeedCheck);
+        checkAttributes(node, onlyList, nodeResult, attNamesNeedCheck);
       }
     }
     NodeList list = node.getChildNodes();
@@ -87,7 +84,7 @@ public class XmlSpellChecker extends AbstractSpellChecker implements SpellChecke
     return nodeResult;
   }
 
-  private void checkAtrributes(Node node, boolean onlyList, Collection<CheckResult> nodeResult,
+  private void checkAttributes(Node node, boolean onlyList, Collection<CheckResult> nodeResult,
       Set<String> attNamesNeedCheck) {
     NamedNodeMap nodeMap = node.getAttributes();
     if (nodeMap != null && nodeMap.getLength() > 0) {

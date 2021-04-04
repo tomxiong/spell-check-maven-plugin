@@ -102,7 +102,7 @@ public class Dictionary {
       words = parseWordsFromDict(bufferedReader, words);
     } catch (IOException e) {
       words.clear();
-      e.printStackTrace();
+      getLogger().error("Failed to load dictionary file " + fileName, e);
     }
   }
 
@@ -132,7 +132,7 @@ public class Dictionary {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
       words = parseWordsFromDict(bufferedReader, words);
     } catch (IOException e) {
-      logger.error(e.getMessage(), e);
+      getLogger().error(e.getMessage(), e);
     }
   }
 

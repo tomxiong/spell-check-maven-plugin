@@ -23,6 +23,16 @@ public class XmlSpellCheckerTest {
   }
 
   @Test
+  public void testisValidLine() {
+    SystemStreamLog logger = new SystemStreamLog();
+    XmlSpellChecker checker = new XmlSpellChecker(Dictionary.getInstance(), logger);
+    assertTrue(checker.isValidLine("test"));
+    assertTrue(checker.isValidLine("Database test"));
+    assertTrue(checker.isValidLine("Database Unresponsive. "));
+    assertTrue(checker.isValidLine("Database Unresponsive. Azure SQL Database @server/@database is not running (down) or not responding, and displays the following error message: \"@error_msg\""));
+  }
+
+  @Test
   public void testCheckFile() {
     SystemStreamLog logger = new SystemStreamLog();
     XmlSpellChecker checker = new XmlSpellChecker(Dictionary.getInstance(), logger);

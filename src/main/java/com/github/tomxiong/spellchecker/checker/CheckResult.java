@@ -53,13 +53,11 @@ public class CheckResult {
     CheckResult that = (CheckResult) o;
     if (lineNum == that.lineNum) {
       return this.line.equals(that.line);
-      //suggestions.keySet().toString().equals(that.suggestions.keySet().toString());
     }
     return false;
   }
 
   @Override
-  //suggestions.keySet().toString()
   public int hashCode() {
     return Objects.hash(lineNum, line);
   }

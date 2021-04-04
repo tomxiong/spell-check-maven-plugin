@@ -74,11 +74,7 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
     checkFileSet.setDirectory(baseDirectory.getAbsolutePath());
     checkFileSet.setIncludes(Arrays.asList(getIncludes()));
     checkFileSet.setExcludes(Arrays.asList(getExcludes()));
-    String[] selectedFiles = fileSetManager.getIncludedFiles(checkFileSet);
-    if (getLog().isDebugEnabled()) {
-      getLog().debug("The scanned file count is " + selectedFiles.length);
-    }
-    return selectedFiles;
+    return fileSetManager.getIncludedFiles(checkFileSet);
   }
 
   public String getExtensionByGuava(String filename) {
@@ -93,9 +89,6 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
     if (!isNull(map) && !map.isEmpty()) {
       XmlSpellChecker checker = new XmlSpellChecker(dictionary, getLog());
       checkersMap.put("xml", checker);
-      if (getLog().isDebugEnabled()) {
-        getLog().debug("Try to add custom check list map : " + map.toString());
-      }
       checker.addCustomCheckList(map);
     }
   }
@@ -104,9 +97,6 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
     File reportFile = new File(outputDir, reportFileName);
     try {
       if (reportFile.exists()) {
-        if (getLog().isDebugEnabled()) {
-          getLog().debug("The output file is exist : " + reportFile.getName() + " so delete it first.");
-        }
         java.nio.file.Files.delete(reportFile.toPath());
       }
       if (!reportFile.createNewFile()) {
@@ -116,9 +106,6 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
       getLog().error("Failed to create report file: " + reportFile.getPath(), e);
     }
     try (FileWriter writer = new FileWriter((reportFile))) {
-      if (getLog().isDebugEnabled()) {
-        getLog().debug("Writing content to file : " + reportFileName);
-      }
       for (Map.Entry<String, Collection<CheckResult>> checkResults : checkResultMap.entrySet()) {
         writer.write("File ");
         writer.write(dirForScan.getCanonicalPath());
@@ -147,9 +134,6 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
         }
       }
       if (checker != null) {
-        if (getLog().isDebugEnabled()) {
-          getLog().debug("checking file " + file);
-        }
         return checker.check(file, onlyList);
       }
     }
@@ -164,16 +148,10 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
       File selectedFile = new File(baseDirectory, selectedFileName);
       Collection<CheckResult> fileResult = checkFile(selectedFile, onlyList);
       if (!fileResult.isEmpty()) {
-        if (getLog().isDebugEnabled()) {
-          getLog().debug("The file has check results " + fileResult.toString());
-        }
         checkResultMap.put(selectedFileName, fileResult);
       }
     }
     if (!checkResultMap.isEmpty()) {
-      if (getLog().isDebugEnabled()) {
-        getLog().debug("The check result is not empty : " + checkResultMap.toString());
-      }
       if (onlyList) {
         generateReport("spelling_list_result.txt", checkResultMap);
       }
