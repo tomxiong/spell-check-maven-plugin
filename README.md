@@ -73,3 +73,7 @@ You can fork it and improve it by yourselves.
 # Next plan
 - [ ] Add groovy script support custom logical to find out the text element of XML ui
 - [ ] Add ML support to build custom dictionary base on the specific domain of projects. 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftomxiong%2Fspell-check-maven-plugin.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftomxiong%2Fspell-check-maven-plugin?ref=badge_large)
