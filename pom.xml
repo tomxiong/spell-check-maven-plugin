@@ -345,7 +345,7 @@
       <dependency>
         <groupId>io.github.mightguy</groupId>
         <artifactId>symspell-lib</artifactId>
-        <version>6.6.130</version>
+        <version>6.6.154</version>
       </dependency>
 
       <dependency>
