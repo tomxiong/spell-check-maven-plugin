@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.tomxiong</groupId>
   <artifactId>spell-check-maven-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>maven-plugin</packaging>
 
   <name>Spell check Maven Plugin</name>
