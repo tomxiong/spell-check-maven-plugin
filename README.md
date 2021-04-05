@@ -1,8 +1,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://raw.githubusercontent.com/tomxiong/spell-check-maven-plugin/main/LICENSE)
+![Maven Central](https://img.shields.io/maven-central/v/com.github.tomxiong/spell-check-maven-plugin)
 [![CI of Github Action](https://github.com/tomxiong/spell-check-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/tomxiong/spell-check-maven-plugin/actions/workflows/maven.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tomxiong_spell-check-maven-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=tomxiong_spell-check-maven-plugin)
-[![codecov](https://codecov.io/gh/tomxiong/spell-check-maven-plugin/branch/main/graph/badge.svg?token=70MOH3JK5F)](https://codecov.io/gh/tomxiong/spell-check-maven-plugin)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftomxiong%2Fspell-check-maven-plugin.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftomxiong%2Fspell-check-maven-plugin?ref=badge_shield)
+[![codecov](https://codecov.io/gh/tomxiong/spell-check-maven-plugin/branch/main/graph/badge.svg?token=70MOH3JK5F)](https://codecov.io/gh/tomxiong/spell-check-maven-plugin)
 
 # maven-spell-checker-plugin
 The maven plugin for spell checker with specific files contains text which show in UI or message
