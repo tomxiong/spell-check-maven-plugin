@@ -33,7 +33,7 @@ public abstract class AbstractSpellMojo extends AbstractMojo {
   private static final String[] DEFAULT_INCLUDES = new String[]{"**/**"};
   @Parameter(property = "dirForScan", defaultValue = "${project.basedir}/src", required = false)
   public File dirForScan;
-  @Parameter(property = "outputDir", defaultValue = "${project.basedir}", required = false)
+  @Parameter(property = "outputDir", defaultValue = "${project.basedir}/target", required = false)
   public File outputDir;
   @Parameter
   public String[] includes;

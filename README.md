@@ -42,18 +42,18 @@ Add below plugin to pom file
 # How to execute the spell check in project?
 You can execute *mvn install* to build the project and the check action will be executed in validate step or you can execute below:
 ```
-mvn spell-check-maven-plugin:check
+mvn com.github.tomxiong:spell-check-maven-plugin:check
 ```
 It will execute spell check for all text of UI element or properties of you custom
 Note: This plugin support properties file, java, groovy by default.For xml, you should define which part contains text show in ui, so the plugin will figure out the text base on the definition.  
 ```
-mvn spell-check-maven-plugin:list
+mvn com.github.tomxiong:spell-check-maven-plugin:list
 ```
 It will list all text instead of check. We can use it to build your custom dictionary base on your domain common language with this list file.
 Note: It will help the user to tuning the definition of xml ui or custom dictionary.
 
 # How to find the result of spell check?
-You can find the _spelling_check_result.txt_ as the spell check result in the project folder when you execute the spell check.
+You can find the _spelling_check_result.txt_ as the spell check result in the target folder of the project when you execute the spell check.
 
 # How to add your custom dictionary for your domain common language
 You can add *<allowword>* for a few words or add a txt file to *<customeDictionaryFile>* for a lot of words.

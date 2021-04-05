@@ -8,13 +8,13 @@
           <entry key="Title">
             <string-rv>
               <context-rv input-key="AzureDB" path="name"/>
-              <value xml:space="preserve">Health State of "{0}"</value>
+              <value xml:space="preserve">Healte State of "{0}"</value>
             </string-rv>
           </entry>
           <entry key="ShortDescription">
             <string-rv>
               <context-rv input-key="AzureDB" path="name"/>
-              <value xml:space="preserve">The health state of {0} is determined by the highest severity level of both the alarms invoked for SQL Azure database and the threshold deviations of the following on-screen components:</value>
+              <value xml:space="preserve">The health state of {0} is determind by the highest severity level of both the alarms invoked for SQL Azure database and the threshold deviations of the following on-screen components:</value>
             </string-rv>
           </entry>
         </context>
@@ -124,7 +124,7 @@
                 <update keep-timestamp="true">
                   <context>
                     <entry key="pageID">
-                      <string xml:space="preserve">Azure_Top_SQL</string>
+                      <string xml:space="preserve">Azure Top SQL</string>
                     </entry>
                   </context>
                 </update>

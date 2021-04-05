@@ -61,4 +61,21 @@ public class XmlSpellCheckerTest {
 
   }
 
+  @Test
+  public void testCheckFileTestXml() {
+    SystemStreamLog logger = new SystemStreamLog();
+    XmlSpellChecker checker = new XmlSpellChecker(Dictionary.getInstance(), logger);
+    checker.setUseSymSpellCheck(true);
+    checker.getDictionary().clearCache();
+    checker.addCustomCheckList(new LinkedHashMap<String, String>() {{
+      put("string-rv", "CDATA");
+    }});
+    File file = new File("target/test-classes/xml/test.xml");
+    assertTrue(file.toString(), file.exists());
+    Collection<CheckResult> result = checker.check(file,false);
+    assertEquals(result.toString(), 2, result.size());
+    CheckResult checkResult = result.iterator().next();
+    assertEquals(checkResult.suggestions.toString(), 10, (checkResult.suggestions.values().iterator().next()).size());
+  }
+
 }
